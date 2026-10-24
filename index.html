@@ -1,0 +1,834 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Configuración básica de la página -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Nombre que aparece en la pestaña del navegador -->
+    <title>NOVA | Tienda tecnológica</title>
+
+    <style>
+        /* =====================================
+           1. COLORES Y DISEÑO GENERAL
+           ===================================== */
+
+        /* Guardamos los colores para reutilizarlos */
+        :root {
+            --fondo: #0b1020;
+            --tarjeta: #151d30;
+            --azul: #60a5fa;
+            --texto: #f1f5f9;
+            --secundario: #9caec5;
+        }
+
+        /* Aplicamos estas reglas a todos los elementos */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Diseño general de toda la página */
+        body {
+            background: var(--fondo);
+            color: var(--texto);
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        /* El contenido no ocupará un ancho excesivo */
+        .contenedor {
+            width: min(1100px, 92%);
+            margin: auto;
+        }
+
+        /* =====================================
+           2. CABECERA Y CARRITO
+           ===================================== */
+
+        header {
+            background: var(--tarjeta);
+            border-bottom: 1px solid #293750;
+            padding: 18px 0;
+        }
+
+        .cabecera {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            color: var(--azul);
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .boton {
+            background: var(--azul);
+            color: #08111f;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-weight: bold;
+        }
+
+        .boton:hover {
+            filter: brightness(1.12);
+        }
+
+        .boton-secundario {
+            background: transparent;
+            color: var(--texto);
+            border: 1px solid #52627b;
+            border-radius: 8px;
+            padding: 9px 13px;
+        }
+
+        /* =====================================
+           3. PORTADA DE LA TIENDA
+           ===================================== */
+
+        .portada {
+            padding: 55px 0 35px;
+        }
+
+        .portada h1 {
+            font-size: clamp(32px, 6vw, 52px);
+            line-height: 1.15;
+            margin-bottom: 15px;
+        }
+
+        .portada p {
+            color: var(--secundario);
+            max-width: 600px;
+        }
+
+        /* =====================================
+           4. BUSCADOR Y FILTROS
+           ===================================== */
+
+        .controles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        .campo {
+            background: var(--tarjeta);
+            color: var(--texto);
+            border: 1px solid #34435c;
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        #busqueda {
+            flex: 1;
+            min-width: 190px;
+        }
+
+        /* =====================================
+           5. CUADRÍCULA DE PRODUCTOS
+           ===================================== */
+
+        .productos {
+            display: grid;
+
+            /* Crea columnas que se adaptan al ancho disponible */
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 20px;
+            padding-bottom: 45px;
+        }
+
+        /* Diseño individual de cada producto */
+        .producto {
+            background: var(--tarjeta);
+            border: 1px solid #293750;
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Zona visual del producto */
+        .imagen-producto {
+            background: #202d45;
+            border-radius: 10px;
+            min-height: 130px;
+            display: grid;
+            place-items: center;
+            font-size: 65px;
+        }
+
+        .producto h3 {
+            font-size: 19px;
+        }
+
+        .categoria {
+            color: var(--secundario);
+            font-size: 14px;
+        }
+
+        .precio {
+            font-size: 22px;
+            color: var(--azul);
+            font-weight: bold;
+            margin-top: auto;
+        }
+
+        /* =====================================
+           6. CARRITO DE LA COMPRA
+           ===================================== */
+
+        .seccion-carrito {
+            background: var(--tarjeta);
+            border: 1px solid #293750;
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 50px;
+        }
+
+        .seccion-carrito h2 {
+            margin-bottom: 15px;
+        }
+
+        .linea-carrito {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 0;
+            border-bottom: 1px solid #34435c;
+        }
+
+        .acciones-carrito {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cantidad {
+            min-width: 22px;
+            text-align: center;
+        }
+
+        .total {
+            font-size: 23px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .vacio {
+            color: var(--secundario);
+            padding: 12px 0;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--secundario);
+            padding: 25px;
+        }
+
+        /* Ajustes para pantallas pequeñas */
+        @media (max-width: 500px) {
+            .cabecera {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .linea-carrito {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================
+         CABECERA
+         ===================================== -->
+
+    <header>
+        <div class="contenedor cabecera">
+
+            <!-- Nombre de nuestra tienda -->
+            <a class="logo">NOVA.</a>
+
+            <!-- El número se actualizará con JavaScript -->
+            <button class="boton" id="irCarrito">
+                🛒 Carrito (<span id="numeroCarrito">0</span>)
+            </button>
+
+        </div>
+    </header>
+
+    <main class="contenedor">
+
+        <!-- =====================================
+             PORTADA
+             ===================================== -->
+
+        <section class="portada">
+            <h1>La tecnología que buscas.</h1>
+
+            <p>
+                Descubre nuestros productos tecnológicos,
+                encuentra lo que necesitas y añádelo al carrito.
+            </p>
+        </section>
+
+        <!-- =====================================
+             BUSCADOR Y SELECTOR DE CATEGORÍA
+             ===================================== -->
+
+        <section>
+            <h2>Catálogo de productos</h2>
+
+            <div class="controles">
+
+                <!-- El usuario escribirá aquí el nombre que busca -->
+                <input
+                    class="campo"
+                    id="busqueda"
+                    type="search"
+                    placeholder="Buscar productos..."
+                    aria-label="Buscar productos"
+                >
+
+                <!-- Las opciones sirven para filtrar por categoría -->
+                <select
+                    class="campo"
+                    id="filtroCategoria"
+                    aria-label="Filtrar por categoría"
+                >
+                    <option value="todos">Todas las categorías</option>
+                    <option value="audio">Audio</option>
+                    <option value="moviles">Móviles</option>
+                    <option value="informatica">Informática</option>
+                    <option value="accesorios">Accesorios</option>
+                </select>
+
+            </div>
+
+            <!-- JavaScript colocará aquí las tarjetas -->
+            <div class="productos" id="listaProductos"></div>
+
+            <!-- Mensaje para cuando no haya resultados -->
+            <p id="sinResultados" class="vacio" hidden>
+                No se han encontrado productos.
+            </p>
+        </section>
+
+        <!-- =====================================
+             CARRITO
+             ===================================== -->
+
+        <section class="seccion-carrito" id="carrito">
+            <h2>Tu carrito</h2>
+
+            <!-- JavaScript mostrará aquí los productos elegidos -->
+            <div id="listaCarrito"></div>
+
+            <p class="total">
+                Total: <span id="total">0,00 €</span>
+            </p>
+
+            <button class="boton" id="vaciarCarrito">
+                Vaciar carrito
+            </button>
+
+            <button class="boton-secundario" id="finalizarCompra">
+                Simular compra
+            </button>
+
+            <!-- Aquí mostraremos mensajes al usuario -->
+            <p id="mensajeCarrito" class="vacio"
+               aria-live="polite"></p>
+        </section>
+
+    </main>
+
+    <footer>
+        NOVA. · Tienda de demostración
+    </footer>
+
+    <script>
+        // =====================================
+        // 1. LISTA DE PRODUCTOS
+        // =====================================
+
+        // Cada objeto representa un producto de nuestra tienda.
+        // id: identificador único.
+        // nombre: nombre que verá el cliente.
+        // precio: precio del producto.
+        // categoria: sirve para el filtro.
+        // icono: dibujo que representa el producto.
+
+        const productos = [
+            {
+                id: 1,
+                nombre: "Auriculares inalámbricos",
+                precio: 39.99,
+                categoria: "audio",
+                icono: "🎧"
+            },
+            {
+                id: 2,
+                nombre: "Teléfono móvil",
+                precio: 299.99,
+                categoria: "moviles",
+                icono: "📱"
+            },
+            {
+                id: 3,
+                nombre: "Ordenador portátil",
+                precio: 749.99,
+                categoria: "informatica",
+                icono: "💻"
+            },
+            {
+                id: 4,
+                nombre: "Teclado mecánico",
+                precio: 69.99,
+                categoria: "accesorios",
+                icono: "⌨️"
+            },
+            {
+                id: 5,
+                nombre: "Altavoz Bluetooth",
+                precio: 49.99,
+                categoria: "audio",
+                icono: "🔊"
+            },
+            {
+                id: 6,
+                nombre: "Ratón gaming",
+                precio: 29.99,
+                categoria: "accesorios",
+                icono: "🖱️"
+            }
+        ];
+
+
+        // =====================================
+        // 2. PREPARAR EL CARRITO
+        // =====================================
+
+        // Intentamos recuperar el carrito guardado anteriormente.
+        // Si no existe, empezamos con una lista vacía.
+
+        let carrito = [];
+
+        try {
+            const guardado = localStorage.getItem("carritoNOVA");
+
+            if (guardado) {
+                const datos = JSON.parse(guardado);
+
+                // Comprobamos que los datos recuperados tengan el formato esperado.
+                if (
+                    Array.isArray(datos) &&
+                    datos.every(item =>
+                        Number.isInteger(item.id) &&
+                        Number.isInteger(item.cantidad) &&
+                        item.cantidad > 0 &&
+                        productos.some(p => p.id === item.id)
+                    )
+                ) {
+                    carrito = datos;
+                }
+            }
+        } catch (error) {
+            // Si los datos guardados están dañados, usamos un carrito vacío.
+            carrito = [];
+        }
+
+
+        // =====================================
+        // 3. CONECTAR JAVASCRIPT CON EL HTML
+        // =====================================
+
+        // Guardamos referencias a los elementos que vamos a modificar.
+
+        const listaProductos =
+            document.getElementById("listaProductos");
+
+        const listaCarrito =
+            document.getElementById("listaCarrito");
+
+        const numeroCarrito =
+            document.getElementById("numeroCarrito");
+
+        const totalElemento =
+            document.getElementById("total");
+
+        const busqueda =
+            document.getElementById("busqueda");
+
+        const filtroCategoria =
+            document.getElementById("filtroCategoria");
+
+
+        // Función para mostrar precios en euros.
+        // Por ejemplo: 39.99 se convierte en 39,99 €.
+
+        function formatoPrecio(precio) {
+            return precio.toLocaleString("es-ES", {
+                style: "currency",
+                currency: "EUR"
+            });
+        }
+
+
+        // =====================================
+        // 4. MOSTRAR LOS PRODUCTOS
+        // =====================================
+
+        function mostrarProductos() {
+
+            // Leemos el texto del buscador y la categoría elegida.
+            const texto = busqueda.value.trim().toLowerCase();
+            const categoria = filtroCategoria.value;
+
+            // Eliminamos las tarjetas anteriores antes de dibujarlas.
+            listaProductos.replaceChildren();
+
+            // Buscamos los productos que coincidan con los filtros.
+            const filtrados = productos.filter(producto => {
+
+                // El nombre debe contener el texto buscado.
+                const coincideNombre =
+                    producto.nombre.toLowerCase().includes(texto);
+
+                // La categoría debe coincidir o estar seleccionado "todos".
+                const coincideCategoria =
+                    categoria === "todos" ||
+                    producto.categoria === categoria;
+
+                // Solo mostramos productos que cumplan ambas condiciones.
+                return coincideNombre && coincideCategoria;
+            });
+
+            // Mostramos un mensaje si no hay coincidencias.
+            document.getElementById("sinResultados").hidden =
+                filtrados.length > 0;
+
+            // Creamos una tarjeta para cada producto filtrado.
+            filtrados.forEach(producto => {
+
+                const tarjeta = document.createElement("article");
+                tarjeta.className = "producto";
+
+                const imagen = document.createElement("div");
+                imagen.className = "imagen-producto";
+                imagen.textContent = producto.icono;
+                imagen.setAttribute("aria-hidden", "true");
+
+                const titulo = document.createElement("h3");
+                titulo.textContent = producto.nombre;
+
+                const categoriaTexto = document.createElement("p");
+                categoriaTexto.className = "categoria";
+                categoriaTexto.textContent = producto.categoria;
+
+                const precio = document.createElement("p");
+                precio.className = "precio";
+                precio.textContent = formatoPrecio(producto.precio);
+
+                const boton = document.createElement("button");
+                boton.className = "boton";
+                boton.textContent = "Añadir al carrito";
+
+                // Al pulsar el botón, añadimos este producto.
+                boton.addEventListener("click", function () {
+                    agregarAlCarrito(producto.id);
+                });
+
+                // Colocamos todos los elementos dentro de la tarjeta.
+                tarjeta.append(
+                    imagen,
+                    titulo,
+                    categoriaTexto,
+                    precio,
+                    boton
+                );
+
+                // Finalmente, mostramos la tarjeta en la página.
+                listaProductos.appendChild(tarjeta);
+            });
+        }
+
+
+        // =====================================
+        // 5. AÑADIR PRODUCTOS AL CARRITO
+        // =====================================
+
+        function agregarAlCarrito(id) {
+
+            // Comprobamos si el producto ya está en el carrito.
+            const existente = carrito.find(item => item.id === id);
+
+            if (existente) {
+                // Si ya estaba, aumentamos la cantidad.
+                existente.cantidad++;
+            } else {
+                // Si no estaba, lo añadimos con cantidad 1.
+                carrito.push({
+                    id: id,
+                    cantidad: 1
+                });
+            }
+
+            // Guardamos los cambios y actualizamos la pantalla.
+            guardarCarrito();
+            mostrarCarrito();
+
+            document.getElementById("mensajeCarrito").textContent =
+                "Producto añadido al carrito.";
+        }
+
+
+        // =====================================
+        // 6. GUARDAR EL CARRITO
+        // =====================================
+
+        function guardarCarrito() {
+
+            // localStorage conserva estos datos en este navegador.
+            // JSON convierte la lista de JavaScript en texto guardable.
+
+            localStorage.setItem(
+                "carritoNOVA",
+                JSON.stringify(carrito)
+            );
+        }
+
+
+        // =====================================
+        // 7. MOSTRAR EL CARRITO
+        // =====================================
+
+        function mostrarCarrito() {
+
+            // Borramos el contenido anterior para dibujarlo actualizado.
+            listaCarrito.replaceChildren();
+
+            let total = 0;
+            let unidades = 0;
+
+            // Recorremos los productos que hay en el carrito.
+            carrito.forEach(item => {
+
+                // Buscamos los datos del producto en nuestro catálogo.
+                const producto = productos.find(p => p.id === item.id);
+
+                // Evitamos mostrar referencias a productos inexistentes.
+                if (!producto) return;
+
+                // Calculamos el precio de todas las unidades de ese producto.
+                const subtotal = producto.precio * item.cantidad;
+
+                total += subtotal;
+                unidades += item.cantidad;
+
+                const linea = document.createElement("div");
+                linea.className = "linea-carrito";
+
+                const informacion = document.createElement("div");
+                informacion.textContent =
+                    producto.nombre + " · " +
+                    formatoPrecio(subtotal);
+
+                const acciones = document.createElement("div");
+                acciones.className = "acciones-carrito";
+
+                // Botón para restar una unidad.
+                const restar = document.createElement("button");
+                restar.className = "boton-secundario";
+                restar.textContent = "−";
+                restar.setAttribute(
+                    "aria-label",
+                    "Quitar una unidad de " + producto.nombre
+                );
+
+                restar.addEventListener("click", function () {
+                    cambiarCantidad(producto.id, -1);
+                });
+
+                // Muestra cuántas unidades tenemos.
+                const cantidad = document.createElement("span");
+                cantidad.className = "cantidad";
+                cantidad.textContent = item.cantidad;
+
+                // Botón para sumar una unidad.
+                const sumar = document.createElement("button");
+                sumar.className = "boton-secundario";
+                sumar.textContent = "+";
+                sumar.setAttribute(
+                    "aria-label",
+                    "Añadir una unidad de " + producto.nombre
+                );
+
+                sumar.addEventListener("click", function () {
+                    cambiarCantidad(producto.id, 1);
+                });
+
+                // Botón para eliminar ese producto completamente.
+                const eliminar = document.createElement("button");
+                eliminar.className = "boton-secundario";
+                eliminar.textContent = "Eliminar";
+
+                eliminar.addEventListener("click", function () {
+                    eliminarProducto(producto.id);
+                });
+
+                acciones.append(restar, cantidad, sumar, eliminar);
+                linea.append(informacion, acciones);
+
+                listaCarrito.appendChild(linea);
+            });
+
+            // Si no hay productos, mostramos un mensaje.
+            if (carrito.length === 0) {
+                const vacio = document.createElement("p");
+                vacio.className = "vacio";
+                vacio.textContent = "Tu carrito está vacío.";
+
+                listaCarrito.appendChild(vacio);
+            }
+
+            // Actualizamos el número de unidades y el precio total.
+            numeroCarrito.textContent = unidades;
+            totalElemento.textContent = formatoPrecio(total);
+        }
+
+
+        // =====================================
+        // 8. CAMBIAR LA CANTIDAD
+        // =====================================
+
+        function cambiarCantidad(id, cambio) {
+
+            const item = carrito.find(producto => producto.id === id);
+
+            // Si no encontramos el producto, no hacemos nada.
+            if (!item) return;
+
+            // Sumamos o restamos una unidad.
+            item.cantidad += cambio;
+
+            // Si la cantidad llega a cero, quitamos el producto.
+            carrito = carrito.filter(item => item.cantidad > 0);
+
+            guardarCarrito();
+            mostrarCarrito();
+        }
+
+
+        // =====================================
+        // 9. ELIMINAR UN PRODUCTO
+        // =====================================
+
+        function eliminarProducto(id) {
+
+            // Creamos una lista que excluye el producto seleccionado.
+            carrito = carrito.filter(item => item.id !== id);
+
+            guardarCarrito();
+            mostrarCarrito();
+        }
+
+
+        // =====================================
+        // 10. BUSCADOR Y FILTROS
+        // =====================================
+
+        // Cada vez que se escribe, actualizamos los resultados.
+        busqueda.addEventListener("input", mostrarProductos);
+
+        // Cada vez que cambia la categoría, filtramos de nuevo.
+        filtroCategoria.addEventListener("change", mostrarProductos);
+
+
+        // =====================================
+        // 11. BOTÓN PARA IR AL CARRITO
+        // =====================================
+
+        document.getElementById("irCarrito")
+            .addEventListener("click", function () {
+
+                document.getElementById("carrito")
+                    .scrollIntoView({ behavior: "smooth" });
+            });
+
+
+        // =====================================
+        // 12. VACIAR EL CARRITO
+        // =====================================
+
+        document.getElementById("vaciarCarrito")
+            .addEventListener("click", function () {
+
+                // Quitamos todos los productos.
+                carrito = [];
+
+                guardarCarrito();
+                mostrarCarrito();
+
+                document.getElementById("mensajeCarrito").textContent =
+                    "Has vaciado el carrito.";
+            });
+
+
+        // =====================================
+        // 13. SIMULAR UNA COMPRA
+        // =====================================
+
+        document.getElementById("finalizarCompra")
+            .addEventListener("click", function () {
+
+                if (carrito.length === 0) {
+                    document.getElementById("mensajeCarrito").textContent =
+                        "Añade algún producto antes de continuar.";
+                    return;
+                }
+
+                // Esta versión es una demostración.
+                // No cobra dinero ni crea un pedido real.
+                alert(
+                    "¡Compra de prueba realizada!\n" +
+                    "Total: " + totalElemento.textContent +
+                    "\nNo se ha realizado ningún pago real."
+                );
+            });
+
+
+        // =====================================
+        // 14. INICIAR LA TIENDA
+        // =====================================
+
+        // Estas funciones se ejecutan al abrir la página.
+        mostrarProductos();
+        mostrarCarrito();
+
+    </script>
+
+</body>
+</html>
